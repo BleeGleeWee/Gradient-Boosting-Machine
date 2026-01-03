@@ -72,7 +72,7 @@ for lr in lrs:
     plt.plot(temp_model.loss_history, label=f'LR={lr}')
 
 plt.title("Effect of Learning Rate on Convergence")
-plt.xlabel("Iterations")
+plt.xlabel("Iterations ")
 plt.ylabel("MSE")
 plt.legend()
 plt.grid(True, alpha=0.3)
