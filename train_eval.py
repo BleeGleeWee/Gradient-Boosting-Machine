@@ -5,7 +5,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 from gbm_model import GradientBoostingRegressorScratch
 
-# --- 1. DATA LOADING (Handling Deprecated Boston Dataset) ---
 print("Loading Boston Housing Dataset from source...")
 data_url = "http://lib.stat.cmu.edu/datasets/boston"
 raw_df = pd.read_csv(data_url, sep="\s+", skiprows=22, header=None)
@@ -14,12 +13,10 @@ target = raw_df.values[1::2, 2]
 
 X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=42)
 
-# --- 2. TRAIN MODEL ---
 print(f"Training GBM from scratch (n_estimators=200, lr=0.1)...")
 model = GradientBoostingRegressorScratch(n_estimators=200, learning_rate=0.1, max_depth=3)
 model.fit(X_train, y_train)
 
-# --- 3. EVALUATE ---
 y_pred_train = model.predict(X_train)
 y_pred_test = model.predict(X_test)
 
@@ -35,9 +32,7 @@ print(f"Test RMSE : {rmse_test:.4f}")
 print(f"Test R^2  : {r2:.4f}")
 print("-" * 30)
 
-# --- 4. GENERATE PLOTS (For Submission) ---
 
-# Plot 1: Training Loss Curve
 plt.figure(figsize=(10, 5))
 plt.plot(model.loss_history, label='Training MSE', color='blue')
 plt.title("Gradient Boosting Training Loss (MSE)")
@@ -48,7 +43,6 @@ plt.grid(True, alpha=0.3)
 plt.savefig("1_Training_Loss_Curve.png")
 print("Saved 1_Training_Loss_Curve.png")
 
-# Plot 2: Actual vs Predicted
 plt.figure(figsize=(8, 8))
 plt.scatter(y_test, y_pred_test, alpha=0.6, color='green')
 plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], '--', color='red', linewidth=2)
@@ -59,7 +53,6 @@ plt.grid(True, alpha=0.3)
 plt.savefig("2_Actual_vs_Predicted.png")
 print("Saved 2_Actual_vs_Predicted.png")
 
-# Plot 3: Residuals
 residuals = y_test - y_pred_test
 plt.figure(figsize=(10, 5))
 plt.hist(residuals, bins=20, color='purple', edgecolor='black', alpha=0.7)
@@ -70,7 +63,6 @@ plt.ylabel("Frequency")
 plt.savefig("3_Residuals_Distribution.png")
 print("Saved 3_Residuals_Distribution.png")
 
-# Plot 4: Learning Rate Comparison
 print("Generating Learning Rate Comparison (Plot 4)...")
 lrs = [0.01, 0.1, 0.5]
 plt.figure(figsize=(10, 5))
